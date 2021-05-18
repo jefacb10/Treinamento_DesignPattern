@@ -10,6 +10,7 @@ namespace TreinamentoDesignPattern_Alura
         static void Main(string[] args)
         {
             #region Strategy
+            Console.WriteLine("\n\n-----STRATEGY-----");
             IImposto icms = new ICMS();
             IImposto iss = new ISS();
             IImposto ipva = new IPVA();
@@ -25,6 +26,7 @@ namespace TreinamentoDesignPattern_Alura
             Console.WriteLine("Fim!");
             #endregion
             #region Chains of Responsability
+            Console.WriteLine("\n\n-----CHAINS OF RESPONSABILITY-----");
             orcamento.AdicionaItem(new Item("CANETA", 10.0));
             orcamento.AdicionaItem(new Item("LAPIS", 5.0));
             orcamento.AdicionaItem(new Item("Caderno", 30.0));
@@ -36,6 +38,7 @@ namespace TreinamentoDesignPattern_Alura
             Console.WriteLine("\nValor descontado: " + calculadorDeDescontos.Calcula(orcamento));
             #endregion
             #region Decorator
+            Console.WriteLine("\n\n-----DECORATOR-----");
             Imposto impostos = new IPTU(new IMVC());
 
             Orcamento orcamento2 = new Orcamento(200.0);
@@ -43,7 +46,7 @@ namespace TreinamentoDesignPattern_Alura
             Console.WriteLine("\nImpostos somados: "+ impostos.Calcula(orcamento2));
             #endregion
             #region State
-            Console.WriteLine("\n-----STATE-----");
+            Console.WriteLine("\n\n-----STATE-----");
             Orcamento reforma = new Orcamento(500.0);
 
             reforma.AplicaDescontoExtra();
@@ -67,7 +70,7 @@ namespace TreinamentoDesignPattern_Alura
             Console.WriteLine("Estado da conta: " + conta.EstadoConta.GetType().Name);
             #endregion
             #region Builder
-            Console.WriteLine("-----BUILDER-----");
+            Console.WriteLine("\n\n-----BUILDER-----");
             NotaFiscal notaFiscal1 = new NotaFiscalBuilder()
                      .ParaEmpresa("Alura")
                     .ComCnpj("123.456.789/0001-10")
@@ -81,7 +84,7 @@ namespace TreinamentoDesignPattern_Alura
 
             #endregion
             #region Observer
-            Console.WriteLine("-----OBSERVER-----");
+            Console.WriteLine("\n\n-----OBSERVER-----");
 
             IList<IAcaoAposGerarNota> acaoAposGerarNotas = new List<IAcaoAposGerarNota>();
             acaoAposGerarNotas.Add(new EmailSender());
