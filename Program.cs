@@ -1,5 +1,7 @@
 ﻿using System;
+using TreinamentoDesignPattern_Alura.Observer;
 using System.IO;
+using System.Collections.Generic;
 
 namespace TreinamentoDesignPattern_Alura
 {
@@ -63,6 +65,41 @@ namespace TreinamentoDesignPattern_Alura
             conta.Deposita(500.00);
             Console.WriteLine("saldo da conta: " + conta.Saldo);
             Console.WriteLine("Estado da conta: " + conta.EstadoConta.GetType().Name);
+            #endregion
+            #region Builder
+            Console.WriteLine("-----BUILDER-----");
+            NotaFiscal notaFiscal1 = new NotaFiscalBuilder()
+                     .ParaEmpresa("Alura")
+                    .ComCnpj("123.456.789/0001-10")
+                    .Com(new ItemDaNotaBuilder().ComNome("item 1").ComValor(100.0).CriarItem())
+                    .Com(new ItemDaNotaBuilder().ComNome("item 2").ComValor(200.0).CriarItem())
+                    .Com(new ItemDaNotaBuilder().ComNome("item 3").ComValor(300.0).CriarItem())
+                    .ComObservacoes("entregar nf pessoalmente")
+                    .Constroi();
+            
+            Console.WriteLine("Valor Bruto: R$ "+notaFiscal1.ValorBruto);
+
+            #endregion
+            #region Observer
+            Console.WriteLine("-----OBSERVER-----");
+
+            IList<IAcaoAposGerarNota> acaoAposGerarNotas = new List<IAcaoAposGerarNota>();
+            acaoAposGerarNotas.Add(new EmailSender());
+            acaoAposGerarNotas.Add(new NotaFiscalDAO());
+            acaoAposGerarNotas.Add(new ImpressoraSender());
+            acaoAposGerarNotas.Add(new Multiplicador(3.00));
+            NotaFiscalBuilder notaFiscalBuilder = new NotaFiscalBuilder(acaoAposGerarNotas);
+            
+
+            NotaFiscal notaFiscal2 = notaFiscalBuilder.ParaEmpresa("Caelum")
+                    .ComCnpj("113.556.606/0001-32")
+                    .Com(new ItemDaNotaBuilder().ComNome("Caderno").ComValor(26.0).CriarItem())
+                    .Com(new ItemDaNotaBuilder().ComNome("Lapiseira").ComValor(10.0).CriarItem())
+                    .Com(new ItemDaNotaBuilder().ComNome("Estojo").ComValor(10.0).CriarItem())
+                    .ComObservacoes("entregar nf pessoalmente")
+                    .Constroi();
+
+            Console.WriteLine("Valor Bruto (NF2): R$ "+notaFiscal2.ValorBruto);
             #endregion
         }
     }
